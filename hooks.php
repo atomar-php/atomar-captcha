@@ -7,7 +7,10 @@ namespace captcha;
  */
 function permission() {
     // return string array of permissions to be created
-    return array();
+    return array(
+      'administer_captcha',
+      'access_captcha'
+    );
 }
 
 function pre_process_boot() {
@@ -34,16 +37,16 @@ function menu() {
  * Implements hook_url()
  */
 function url() {
-    return array(
-        '/api/(?P<api>[a-zA-Z\_-]+)/?(\?.*)?' => 'app\controller\Api'
-    );
+    return array();
 }
 
 /**
  * Implements hook_libraries()
  */
 function libraries() {
-    return array ();
+    return array (
+      '\captcha\CaptchaAPI.php'
+    );
 }
 
 /**
@@ -62,5 +65,7 @@ function twig_function() {
     // value: actual_function_name
     // You may use object functions as well
     // e.g. ObjectClass::actual_function_name
-    return array();
+    return array(
+      'captcha_form'=>'\captcha\CaptchaAPI::twig_insert_form'
+    );
 }
