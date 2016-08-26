@@ -1,0 +1,7 @@
+{
+  "name": "captcha",
+  "version": "1.0.0",
+  "description": "Provides a minimalist captcha form that can be easily added to any form.",
+  "atomarVersion": "1.0.0",
+  "dependencies": {}
+}
