@@ -2,6 +2,9 @@
 
 namespace captcha;
 
+use atomar\Atomar;
+use crypto\Crypt;
+
 /**
 * This api provides methods for validating users via a captcha form
 */
@@ -13,7 +16,7 @@ class CaptchaAPI
    */
   public static function twig_insert_form() {
     // house keeping
-    $expired = db_date(time() - variable_get('captcha_token_ttl', 3600)); // expire after one hour
+    $expired = db_date(time() - Atomar::get_variable('captcha_token_ttl', 3600)); // expire after one hour
     $sql_clean = <<<SQL
 DELETE FROM `captcha`
 WHERE `created_at` <= ?
@@ -21,9 +24,9 @@ SQL;
     \R::exec($sql_clean, array($expired));
 
     // prepare form
-    $token = \crypto\CryptoAPI::generate_token(20);
-    $num1 = \crypto\CryptoAPI::rand_secure(1, 20);
-    $num2 = \crypto\CryptoAPI::rand_secure(1, 10);
+    $token = Crypt::randString(20);
+    $num1 = Crypt::randInt(1, 20);
+    $num2 = Crypt::randInt(1, 10);
 
     $captcha = \R::dispense('captcha');
     $captcha->token = $token;
